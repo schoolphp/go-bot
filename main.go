@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"log"
+	"os"
 	"project/config"
 	"project/helpers"
 	"project/services/fastex"
@@ -15,6 +16,10 @@ func main() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Ошибка загрузки .env файла")
+	}
+
+	if os.Getenv("IS_BOT_ENABLED") == "0" {
+		log.Fatal("Бот отключен")
 	}
 
 	go runLiquidityBot()
