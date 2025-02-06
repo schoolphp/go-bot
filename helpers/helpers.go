@@ -36,7 +36,6 @@ func SendRequest(params map[string]string, method string, endpoint string, servi
 
 	if strings.ToUpper(method) == "POST" {
 		req, err = http.NewRequest("POST", endpoint, bytes.NewBufferString(postData))
-		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	} else if strings.ToUpper(method) == "GET" {
 		req, err = http.NewRequest("GET", endpoint+"?"+postData, nil)
 	} else {
@@ -45,6 +44,10 @@ func SendRequest(params map[string]string, method string, endpoint string, servi
 
 	if err != nil {
 		return "", fmt.Errorf("failed to create request: %v", err)
+	}
+
+	if strings.ToUpper(method) == "POST" {
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 
 	if service == "fastex" {
